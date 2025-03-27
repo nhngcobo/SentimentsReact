@@ -1,0 +1,6 @@
+@SentimentsReact.Server_HostAddress = http://localhost:5075
+
+GET {{SentimentsReact.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
