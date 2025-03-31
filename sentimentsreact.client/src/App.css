@@ -9,3 +9,7 @@ th, td {
     padding-left: 1rem;
     padding-right: 1rem;
 }
+
+.outlined-textarea{
+    padding-left: 4rem;
+}

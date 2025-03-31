@@ -1,29 +1,37 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import NegativeTweets from './NegativeTweets'
+import * as React from 'react';
+import {TextField, Button} from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
+
 
 function App() {
-    const [positiveTweets, setPositiveTweets] = useState();
 
-    useEffect(() => {
-        getPositiveTweets();
-    }, []);
+    const ariaLabel = { 'aria-label': 'description' };
 
 
     return (
-        <div>
-            <h1 id="tableLabel">Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
-            {positiveTweets}
-        </div>
-    );
+        <div id="App-div">
+            <h3>Sentiment Analysis</h3>
 
-    async function getPositiveTweets() {
-        const response = await fetch('https://localhost:7110/api/tweets/positive');
-        if (response.ok) {
-            const data = await response.json();
-            setPositiveTweets(data);
-        }
-    }
+           <TextField
+                id="outlined-textarea"
+                placeholder="How do you feel?"
+                multiline
+                fullWidth='true'
+                sx={{ 
+                    "& .MuiInputBase-root": { width: "20rem" } 
+                  }}
+                />
+            <Button id="Send-Button"
+                    size="large" 
+                    endIcon={<SendIcon />}
+                    >Send
+            </Button>
+            <NegativeTweets/>
+        </div>       
+    );
 }
 
 export default App;

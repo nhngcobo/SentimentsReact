@@ -1,4 +1,4 @@
-using SentimentsReact.Server.Services;
+using SentimentsReact.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +9,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClient();
+
 
 // Get CORS origins from appsettings.json
 var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();

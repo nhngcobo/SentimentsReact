@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SentimentsReact.Server.Services;
+//using SentimentsReact.Server.Services;
 using SentimentsReact.Server.Models;
 using System.Collections.Generic; 
 
@@ -11,23 +11,21 @@ namespace SentimentsReact.Server.Controllers
     {
         private readonly SentimentService _sentimentService = sentimentService;
 
-        [HttpGet("positive")]
-        public List<string> GetPositive()
-        {
-            return _sentimentService.getPositiveSentiments();
-        }
 
-        [HttpGet("negative")]
-        public List<string> GetNegative()
+        [HttpGet("analyze-single")]
+        public async Task<IActionResult> AnalyzeSingle()
         {
-            return _sentimentService.getNegativeSentiments();
+            var results = await _sentimentService.GetSentimentAsync();
+            return Ok(results);
+            //return _sentimentService.GetSentimentAsync();
         }
-
-        [HttpGet("neutral")]
-        public List<string> GetNeutral()
-        {          
-            return _sentimentService.getNeutralSentiments();
-        }
+        
+        //[HttpGet("analyze-all")]
+        //public async Task<IActionResult> AnalyzeAll()
+        //{
+        //    var results = await _sentimentService.AnalyzeAllTweetsAsync();
+        //    return Ok(results);
+        //}
 
         [HttpPost]
         public IActionResult CreateProduct([FromBody] string productName)
