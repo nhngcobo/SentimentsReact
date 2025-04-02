@@ -1,8 +1,6 @@
 ﻿#root {
     max-width: 1280px;
     margin: 0 auto;
-    padding: 2rem;
-    text-align: center;
 }
 
 th, td {
@@ -10,6 +8,10 @@ th, td {
     padding-right: 1rem;
 }
 
-.outlined-textarea{
-    padding-left: 4rem;
+.feeling-response {
+    display: flex;
+}
+
+.feeling-resp-p {
+    padding-top: 0.4rem;
 }

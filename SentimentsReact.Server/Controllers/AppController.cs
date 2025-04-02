@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-//using SentimentsReact.Server.Services;
 using SentimentsReact.Server.Models;
-using System.Collections.Generic; 
 
 namespace SentimentsReact.Server.Controllers
 {
@@ -12,25 +10,16 @@ namespace SentimentsReact.Server.Controllers
         private readonly SentimentService _sentimentService = sentimentService;
 
 
-        [HttpGet("analyze-single")]
-        public async Task<IActionResult> AnalyzeSingle()
+        [HttpPost("analyze-single")]
+        public async Task<IActionResult> AnalyzeSingle([FromBody] SentimentRequest request)
         {
-            var results = await _sentimentService.GetSentimentAsync();
-            return Ok(results);
-            //return _sentimentService.GetSentimentAsync();
-        }
-        
-        //[HttpGet("analyze-all")]
-        //public async Task<IActionResult> AnalyzeAll()
-        //{
-        //    var results = await _sentimentService.AnalyzeAllTweetsAsync();
-        //    return Ok(results);
-        //}
+            if (string.IsNullOrEmpty(request.Text))
+            {
+                return BadRequest("Text cannot be empty.");
+            }
 
-        [HttpPost]
-        public IActionResult CreateProduct([FromBody] string productName)
-        {
-            return Created("", $"Product '{productName}' created successfully.");
+            var results = await _sentimentService.GetSentimentAsync(request);
+            return Ok(results);
         }
     }
 }
