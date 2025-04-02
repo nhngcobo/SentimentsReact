@@ -6,6 +6,7 @@ import { TextField, Button } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ChooseModel from './ChooseModel';
 
 
 
@@ -13,6 +14,7 @@ function App() {
 
     const [text, setText] = useState("");
     const [submittedText, setSubmittedText] = useState("");
+    const [selectedModel, setSelectedModel] = useState(""); 
 
     const handleSendClick = () => {
         setSubmittedText(text);
@@ -23,11 +25,16 @@ function App() {
         setText("");
     };
 
+    const handleModelSelect = (model) => {
+        setSelectedModel(model);
+      };
+    
     return (
         <div id="App-div">
-            <Typography id="heading-sentiment" variant="overline" gutterBottom sx={{ display: 'block', fontSize: 'large', paddingLeft: '15em' }}>
-                SENTIMENT ANALYSIS
-            </Typography>
+      <ChooseModel onModelSelect={handleModelSelect} />
+      <Typography id="heading-sentiment" variant="overline" gutterBottom sx={{ display: 'block', fontSize: 'large', paddingLeft: '15em' }}>
+            SENTIMENT ANALYSIS
+      </Typography>
             <Button startIcon={<DeleteIcon />}
                 size="large"
                 onClick={handleDeleteClick}
@@ -38,10 +45,12 @@ function App() {
             <TextField
                 id="outlined-textarea"
                 placeholder="How do you feel?"
-                multiline
                 fullWidth='true'
                 value={text}
                 onChange={(e) => setText(e.target.value)}
+                onKeyDown={(e) => (
+                    e.key === "Enter" ? handleSendClick(e) : null
+                  )}
                 sx={{
                     "& .MuiInputBase-root": { width: "25rem" },
                     marginRight: "4em",
@@ -55,7 +64,7 @@ function App() {
                 sx={{ marginTop: '0.4em', background: 'transparent', color: 'black' }}
             >Send
             </Button>
-            {submittedText && <InputTweets inputText={submittedText} />}
+            {submittedText && <InputTweets inputText={submittedText} selectedModel={selectedModel}/>}
         </div>
     );
 }

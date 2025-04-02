@@ -10,15 +10,28 @@ namespace SentimentsReact.Server.Controllers
         private readonly SentimentService _sentimentService = sentimentService;
 
 
-        [HttpPost("analyze-single")]
-        public async Task<IActionResult> AnalyzeSingle([FromBody] SentimentRequest request)
+        [HttpPost("analyze-single-torch")]
+        public async Task<IActionResult> AnalyzeSingleTorch([FromBody] SentimentRequest request)
         {
             if (string.IsNullOrEmpty(request.Text))
             {
                 return BadRequest("Text cannot be empty.");
             }
 
-            var results = await _sentimentService.GetSentimentAsync(request);
+            var results = await _sentimentService.GetSentimentAsyncTorch(request);
+            return Ok(results);
+        }
+
+
+        [HttpPost("analyze-single-vader")]
+        public async Task<IActionResult> AnalyzeSingleVader([FromBody] SentimentRequest request)
+        {
+            if (string.IsNullOrEmpty(request.Text))
+            {
+                return BadRequest("Text cannot be empty.");
+            }
+
+            var results = await _sentimentService.GetSentimentAsyncVader(request);
             return Ok(results);
         }
     }
