@@ -4,7 +4,7 @@ import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 
 function InputTweets({ inputText }) {
-    const [feeling, setFeeling] = useState([]); 
+    const [feeling, setFeeling] = useState([]);
 
 
     useEffect(() => {
@@ -16,10 +16,10 @@ function InputTweets({ inputText }) {
             const response = await fetch("https://localhost:7110/api/tweets/analyze-single", {
                 method: "POST",
                 headers: {
-                  "Content-Type": "application/json",
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ text: inputText }),
-              })
+            })
             if (!response.ok) {
                 throw new Error('Failed to fetch tweets');
             }
@@ -32,13 +32,13 @@ function InputTweets({ inputText }) {
 
     return (
         <div className='feeling-response'>
-            <p className='feeling-resp-p'>You've been feeling : !</p> 
-            {feeling == "POSITIVE" && < EmojiEmotionsIcon 
-                sx={{paddingTop: '1em'}}
-            /> }
-            {feeling == "NEGATIVE" && < SentimentVeryDissatisfiedIcon 
-                sx={{paddingTop: '1em'}}
-            /> }
+            <p className='feeling-resp-p'>You've been feeling : !</p>
+            {feeling == "POSITIVE" && < EmojiEmotionsIcon
+                sx={{ paddingTop: '1em' }}
+            />}
+            {feeling == "NEGATIVE" && < SentimentVeryDissatisfiedIcon
+                sx={{ paddingTop: '1em' }}
+            />}
         </div>
     );
 }
