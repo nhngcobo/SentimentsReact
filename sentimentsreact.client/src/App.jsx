@@ -2,19 +2,20 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import InputTweets from './InputTweets'
 import * as React from 'react';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Menu, MenuItem } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ChooseModel from './ChooseModel';
-
-
+import LoginIcon from '@mui/icons-material/Login';
+import Popover from '@mui/material/Popover';
+import Box from '@mui/material/Box';
 
 function App() {
-
     const [text, setText] = useState("");
     const [submittedText, setSubmittedText] = useState("");
     const [selectedModel, setSelectedModel] = useState(""); 
+    const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleSendClick = () => {
         setSubmittedText(text);
@@ -27,15 +28,82 @@ function App() {
 
     const handleModelSelect = (model) => {
         setSelectedModel(model);
-      };
+    };
+    
+    const open = Boolean(anchorEl);
+    
+    const handleMouseEnter = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
     
     return (
         <div id="App-div">
-      <ChooseModel onModelSelect={handleModelSelect} />
-      <Typography id="heading-sentiment" variant="overline" gutterBottom sx={{ display: 'block', fontSize: 'large', paddingLeft: '15em' }}>
-            SENTIMENT ANALYSIS
-      </Typography>
-            <Button startIcon={<DeleteIcon />}
+            {/* Login Icon with Dropdown */}
+            <LoginIcon
+                fontSize="large"
+                sx={{ 
+                    cursor: 'pointer',
+                    //position: 'absolute',
+                    right: '20px',
+                    top: '20px'
+                }}
+                id="basic-button"
+                aria-controls={open ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onMouseEnter={handleMouseEnter}
+            />
+   
+            <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                PaperProps={{
+                    'aria-labelledby': 'basic-button',
+                    onMouseLeave: handleClose,
+                    sx: {
+                        mt: 1,
+                        minWidth: '120px'
+                    },
+                }}
+                disableAutoFocusItem={true}
+                keepMounted
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                }}
+
+                TransitionProps={{ timeout: 100 }}
+            >
+                <MenuItem 
+                    onClick={handleClose}
+                    onMouseEnter={(e) => e.stopPropagation()}
+                >
+                    Login
+                </MenuItem>
+                <MenuItem 
+                    onClick={handleClose}
+                    onMouseEnter={(e) => e.stopPropagation()}
+                >
+                    Sign Up
+                </MenuItem>
+            </Menu>
+
+            <ChooseModel onModelSelect={handleModelSelect} />
+            <Typography id="heading-sentiment" variant="overline" gutterBottom sx={{ display: 'block', fontSize: 'large', paddingLeft: '15em' }}>
+                SENTIMENT ANALYSIS
+            </Typography>
+            <Button 
+                startIcon={<DeleteIcon />}
                 size="large"
                 onClick={handleDeleteClick}
                 sx={{ marginTop: '0.4em', background: 'transparent', color: 'black' }}
@@ -50,19 +118,21 @@ function App() {
                 onChange={(e) => setText(e.target.value)}
                 onKeyDown={(e) => (
                     e.key === "Enter" ? handleSendClick(e) : null
-                  )}
+                )}
                 sx={{
                     "& .MuiInputBase-root": { width: "25rem" },
                     marginRight: "4em",
                     marginLeft: "4em"
                 }}
             />
-            <Button className="Send-Button"
+            <Button 
+                className="Send-Button"
                 size="large"
                 endIcon={<SendIcon />}
                 onClick={handleSendClick}
                 sx={{ marginTop: '0.4em', background: 'transparent', color: 'black' }}
-            >Send
+            >
+                Send
             </Button>
             {submittedText && <InputTweets inputText={submittedText} selectedModel={selectedModel}/>}
         </div>
