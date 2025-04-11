@@ -2,12 +2,18 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import InputTweets from './InputTweets'
 import * as React from 'react';
-import { TextField, Button, Menu, MenuItem } from '@mui/material';
+import { TextField, Button, Menu, MenuItem,
+    Dialog, 
+    DialogTitle, 
+    DialogContent, 
+    DialogActions 
+ } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ChooseModel from './ChooseModel';
 import LoginIcon from '@mui/icons-material/Login';
+import SignIn from './SignIn'
 import Popover from '@mui/material/Popover';
 import Box from '@mui/material/Box';
 
@@ -16,6 +22,8 @@ function App() {
     const [submittedText, setSubmittedText] = useState("");
     const [selectedModel, setSelectedModel] = useState(""); 
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [signInClicked, setSignInClicked] = useState(false);
+    
 
     const handleSendClick = () => {
         setSubmittedText(text);
@@ -38,11 +46,11 @@ function App() {
     
     const handleClose = () => {
         setAnchorEl(null);
+        setSignInClicked(true);
     };
     
     return (
         <div id="App-div">
-            {/* Login Icon with Dropdown */}
             <LoginIcon
                 fontSize="large"
                 sx={{ 
@@ -97,6 +105,16 @@ function App() {
                     Sign Up
                 </MenuItem>
             </Menu>
+            <Dialog open={signInClicked} onClose={() => setSignInClicked(false)}
+                
+                PaperProps={{
+                    sx: {
+                      overflow: 'hidden', // Disables scrolling
+                      maxHeight: 'calc(100vh - 64px)', // Ensures dialog doesn't exceed viewport
+                    },
+                  }}>
+  <SignIn />
+</Dialog>
 
             <ChooseModel onModelSelect={handleModelSelect} />
             <Typography id="heading-sentiment" variant="overline" gutterBottom sx={{ display: 'block', fontSize: 'large', paddingLeft: '15em' }}>
