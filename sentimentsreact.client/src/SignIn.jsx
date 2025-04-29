@@ -3,26 +3,28 @@ import { AppProvider } from '@toolpad/core/AppProvider';
 import { SignInPage } from '@toolpad/core/SignInPage';
 import { useTheme } from '@mui/material/styles';
 
-const providers = [{ id: 'passkey', name: 'Passkey' },{ id: 'google', name: 'Google' }];
+const providers = [{ id: 'credentials', name: 'Email and Password' }];
 
-const signIn = async (provider) => {
+const signIn = async (provider, formData) => {
   const promise = new Promise((resolve) => {
     setTimeout(() => {
-      alert(`Signing in with ${provider.id}`);
+      alert(
+        `Signing in with "${provider.name}" and credentials: ${formData.get('email')}, ${formData.get('password')}`,
+      );
       resolve();
-    }, 500);
+    }, 300);
   });
   return promise;
 };
 
-export default function PasskeySignInPage() {
+export default function CredentialsSignInPage() {
   const theme = useTheme();
   return (
     <AppProvider theme={theme}>
       <SignInPage
         signIn={signIn}
         providers={providers}
-        slotProps={{ emailField: { autoFocus: false }, form: { noValidate: true } }}
+        slotProps={{ emailField: { autoFocus: true }, form: { noValidate: false } }}
       />
     </AppProvider>
   );

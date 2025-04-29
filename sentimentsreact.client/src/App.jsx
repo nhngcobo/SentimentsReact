@@ -14,6 +14,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ChooseModel from './ChooseModel';
 import LoginIcon from '@mui/icons-material/Login';
 import SignIn from './SignIn'
+import SignUp from './SignUp'
+
 import Popover from '@mui/material/Popover';
 import Box from '@mui/material/Box';
 
@@ -23,6 +25,7 @@ function App() {
     const [selectedModel, setSelectedModel] = useState(""); 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [signInClicked, setSignInClicked] = useState(false);
+    const [signUpClicked, setSignUpClicked] = useState(false);
     
 
     const handleSendClick = () => {
@@ -44,9 +47,16 @@ function App() {
         setAnchorEl(event.currentTarget);
     };
     
+    const handleLoginClick = () => {
+        setSignInClicked(true);
+    }
+
+    const handleSignUpClick = () => {
+        setSignUpClicked(true);
+    }
     const handleClose = () => {
         setAnchorEl(null);
-        setSignInClicked(true);
+        //setSignInClicked(true);
     };
     
     return (
@@ -71,14 +81,14 @@ function App() {
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
-                PaperProps={{
-                    'aria-labelledby': 'basic-button',
-                    onMouseLeave: handleClose,
-                    sx: {
-                        mt: 1,
-                        minWidth: '120px'
-                    },
-                }}
+                // PaperProps={{
+                //     'aria-labelledby': 'basic-button',
+                //     onMouseLeave: handleClose,
+                //     sx: {
+                //         mt: 1,
+                //         minWidth: '120px'
+                //     },
+                // }}
                 disableAutoFocusItem={true}
                 keepMounted
                 anchorOrigin={{
@@ -93,13 +103,13 @@ function App() {
                 TransitionProps={{ timeout: 100 }}
             >
                 <MenuItem 
-                    onClick={handleClose}
+                    onClick={handleLoginClick}
                     onMouseEnter={(e) => e.stopPropagation()}
                 >
                     Login
                 </MenuItem>
                 <MenuItem 
-                    onClick={handleClose}
+                    onClick={handleSignUpClick}
                     onMouseEnter={(e) => e.stopPropagation()}
                 >
                     Sign Up
@@ -113,8 +123,18 @@ function App() {
                       maxHeight: 'calc(100vh - 64px)', // Ensures dialog doesn't exceed viewport
                     },
                   }}>
-  <SignIn />
-</Dialog>
+                <SignIn/>
+            </Dialog>
+            <Dialog open={signUpClicked} onClose={() => setSignUpClicked(false)}
+                
+                PaperProps={{
+                    sx: {
+                      overflow: 'hidden', // Disables scrolling
+                      maxHeight: 'calc(100vh - 64px)', // Ensures dialog doesn't exceed viewport
+                    },
+                  }}>
+                <SignUp/>
+            </Dialog>
 
             <ChooseModel onModelSelect={handleModelSelect} />
             <Typography id="heading-sentiment" variant="overline" gutterBottom sx={{ display: 'block', fontSize: 'large', paddingLeft: '15em' }}>
